@@ -37,7 +37,7 @@ class GarageDoor:
         while (time.monotonic() < end_time):
             if not self.listener.is_alive():
                 self.current_state = "open-freeze"
-                print("STATE: ", self.current_state)
+                print("INTERRUPTED: Door is frozen")
                 self.listener = Thread(target=get_key)
                 self.listener.start()
                 return
@@ -51,7 +51,7 @@ class GarageDoor:
         while (time.monotonic() < end_time):
             if not self.listener.is_alive():
                 self.current_state = "close-freeze"
-                print("STATE: ", self.current_state)
+                print("INTERRUPTED: Door is frozen")
                 self.listener = Thread(target=get_key)
                 self.listener.start()
                 return
