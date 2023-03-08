@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Set the project name
-project (matrix_ops)
+project (garage_door_fsm)
 
 enable_testing()
 
@@ -22,7 +22,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 add_library()
-target_link_libraries(matrix PRIVATE Threads::Threads)
+target_link_libraries(garage_door PRIVATE Threads::Threads)
 
 
 # Add an executable with the above sources

@@ -1,48 +1,60 @@
 #include <iostream>
-#include <termios.h>
-#include <unistd.h>
+#include <ncurses.h>
+#include <chrono>
 #include <thread>
+#include <string>
+#include <map>
 
-struct termios old_settings, new_settings;
+void keyListener(){
+    // Initialize ncurses
+  initscr();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
 
-void getKey(){
-  // Save the current terminal settings
-  tcgetattr(STDIN_FILENO, &old_settings);
-  new_settings = old_settings;
-  
-  // Disable canonical mode and echo
-  new_settings.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);
-  
-  while (true) { // loop indefinitely
-    char key;
-    if (read(STDIN_FILENO, &key, 1) > 0) { // check if a key has been pressed
-      std::cout << "Key pressed: " << key << std::endl; // print the key to the console
-      return;
+  // Set timeout for getch() to non-blocking mode
+  timeout(0);
+
+  // Get start time
+  auto start = std::chrono::system_clock::now();
+  std::map<std::string, std::string> myMap;
+  myMap["open"] = "closed";
+  myMap["closed"] = "open";
+  // Loop for 10 seconds
+  bool state_changed = false;
+  bool first_flag = true;
+  std::string curr_state = "open";
+  while (true){
+    // Check for key press
+    if (first_flag){
+      printw(" welcome to door! your state is: %s\n", curr_state.c_str());
+      first_flag = false;
     }
+    if (state_changed){
+      printw("%s \n", curr_state.c_str());
+      state_changed = false;
+      
+    }
+    int ch = getch();
+    if (ch != ERR && ch =='q'){
+      break;
+    }
+    else if (ch != ERR) {
+      // Key press detected, print to screen
+      printw("Key pressed: %c\n", ch);
+      curr_state = myMap[curr_state];
+      state_changed = true;
+      refresh();    
+    }
+    
   }
-  
-}
-
-void some_func(){
-    int i = 0;
-    while ( i < 10000){
-        std::cout << "here's i: " << i << std::endl;
-        i++;
-    }
+  // Clean up ncurses
+  endwin();
 }
 
 int main() {
-  std::cout << "Press any key to continue..." << std::endl; 
-  std::thread t1(getKey);
-  while(true){
-    if (!t1.joinable()){
-        t1.join();
-        t1.detach();
-        t1 = std::thread(getKey);
-    }
-  }
-  // Restore the original terminal settings
-  tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
+  keyListener();
+  std::cout << "hello world!" << std::endl;
   return 0;
 }
+
