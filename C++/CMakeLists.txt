@@ -12,43 +12,28 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project (garage_door_fsm)
 
 enable_testing()
-
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
 # Create a sources variable with a link to all cpp files to compile
 set(SOURCES
-
+        src/garage_door.cpp
+        include/garage_door.h
+        src/main.h
 )
 
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
 
-add_library()
-target_link_libraries(garage_door PRIVATE Threads::Threads)
-
+add_library(garage_door src/garage_door.cpp include/garage_door.h)
+target_link_libraries(garage_door ${CURSES_LIBRARIES})
 
 # Add an executable with the above sources
-add_executable(test_constructor tests/test_constructor.cpp include/matrix.h)
-add_executable(test_mult tests/test_mult.cpp include/matrix.h)
-add_executable(test_transpose tests/test_transpose.cpp include/matrix.h)
+add_executable(main src/main.cpp include/garage_door.h)
+target_link_libraries(main ${CURSES_LIBRARIES})
 
-add_test(NAME test_constructor
-        COMMAND test_constructor)
 
-add_test(NAME test_mult
-        COMMAND test_mult)
-
-add_test(NAME test_transpose
-        COMMAND test_transpose)
-
-#hide test executables
-set_target_properties(
-    test_constructor test_mult test_transpose
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY bin/test
-)
 
 # Set the directories that should be included in the build command for this target
 # when running g++ these will be included as -I/directory/path/
 #target_include_directories(test_matrix
 #    PRIVATE 
 #        ${PROJECT_SOURCE_DIR}/include
-)
+#)
