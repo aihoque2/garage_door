@@ -5,6 +5,21 @@
 #include <string>
 #include <map>
 
+bool keyHelper(){
+  auto start = std::chrono::steady_clock::now();
+  bool first_flag = true;
+  while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)){
+    if (first_flag) {printw("operating on door... \n"); first_flag = false;}
+    int ch = getch();
+    if (ch != ERR){
+      printw("you froze the function!... \n");
+      refresh();
+      return false;
+    }
+  }
+  return true;
+}
+
 void keyListener(){
     // Initialize ncurses
   initscr();
@@ -16,10 +31,10 @@ void keyListener(){
   timeout(0);
 
   // Get start time
-  auto start = std::chrono::system_clock::now();
   std::map<std::string, std::string> myMap;
   myMap["open"] = "closed";
   myMap["closed"] = "open";
+  myMap["frozen"] = "closed";
   // Loop for 10 seconds
   bool state_changed = false;
   bool first_flag = true;
@@ -42,9 +57,12 @@ void keyListener(){
     else if (ch != ERR) {
       // Key press detected, print to screen
       printw("Key pressed: %c\n", ch);
-      curr_state = myMap[curr_state];
-      state_changed = true;
       refresh();    
+      if (!keyHelper()){
+        curr_state = "frozen";
+      }
+      else curr_state = myMap[curr_state];
+      state_changed = true;
     }
     
   }
