@@ -42,7 +42,7 @@ to execute unit tests, please run
 
 
 ### to run
-to execute the program, please type
+inside the `python` directory, please run
 
 `python3 ./src/garage_door.py`
 
