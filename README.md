@@ -3,17 +3,17 @@
 welcome to my submission for the garage door challenge. below you'll see how to turn the python version and C++ version
 
 ### controls
-use 'A' to press the garage door button, and 'D' to trigger a safety hazard
+use 'A' to press the garage door button, and 'S' to trigger a safety hazard
 
 
 ## C++
 
 ### requirements
-CMAKE >= 3.5
+`CMAKE >= 3.5`
 
-ncurses
+`ncurses`
 
-ubuntu 18.04 or higher
+`ubuntu 18.04 or higher`
 
 please ensure you have ncurses installed:
 
@@ -36,9 +36,9 @@ to execute unit tests, please run
 ## Python
 
 ### requirements
-Python 3
+`Python 3`
 
-ubuntu 18.04 or higher
+`ubuntu 18.04 or higher`
 
 
 ### to run
