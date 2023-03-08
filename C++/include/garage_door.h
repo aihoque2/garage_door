@@ -14,16 +14,16 @@ class GarageDoor{
         GarageDoor();
         bool isFrozen(); //check if state is one of the frozens
         bool isInitialState(); //check if state is opened or closed
-        bool close();
+        bool close(); //return true if state changes, false if quit is called
         bool open();
         void run(); // control loop of sim
+        std::string getState();
     private:
-        std::vector<std::string> states = {"open", "closed", "opening", "open-freeze", "close-freeze"};
+        std::vector<std::string> states;
         std::string current_state;
         typedef bool (GarageDoor::*MFP)(); //boolean function pointers
         std::map <std::string, MFP> fmap; //map the state to its function call
     
 };
 
-#include "../src/garage_door.cpp"
 #endif

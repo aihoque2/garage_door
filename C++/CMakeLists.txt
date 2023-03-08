@@ -18,7 +18,6 @@ include_directories(${CURSES_INCLUDE_DIR})
 set(SOURCES
         src/garage_door.cpp
         include/garage_door.h
-        src/main.h
 )
 
 
@@ -26,10 +25,29 @@ add_library(garage_door src/garage_door.cpp include/garage_door.h)
 target_link_libraries(garage_door ${CURSES_LIBRARIES})
 
 # Add an executable with the above sources
-add_executable(main src/main.cpp include/garage_door.h)
+add_executable(main src/main.cpp src/garage_door.cpp include/garage_door.h)
 target_link_libraries(main ${CURSES_LIBRARIES})
 
 
+#test executables
+add_executable(test_close tests/test_close.cpp src/garage_door.cpp include/garage_door.h)
+target_link_libraries(test_close ${CURSES_LIBRARIES})
+add_executable(test_open tests/test_open.cpp src/garage_door.cpp include/garage_door.h)
+target_link_libraries(test_open ${CURSES_LIBRARIES})
+
+#add test
+add_test(NAME test_close
+        COMMAND test_close)
+
+add_test(NAME test_open
+        COMMAND test_open)
+
+#hide test executables
+set_target_properties(
+    test_open test_close
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY bin/tests
+)
 
 # Set the directories that should be included in the build command for this target
 # when running g++ these will be included as -I/directory/path/
