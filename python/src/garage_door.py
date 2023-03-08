@@ -12,6 +12,7 @@ class GarageDoor:
         self.button_handler = {"open":self.close, "open-freeze": self.close, "closed": self.open, "close-freeze": self.open}
         self.listener = Thread(target=self.get_key)
         self.pressed = 'c'
+        self.done = False
 
     def get_key(self):
         file_descriptor = sys.stdin.fileno()
@@ -34,7 +35,7 @@ class GarageDoor:
     def open(self):
         self.current_state = "opening"
         print("opening...")
-        end_time = time.monotonic() + 4
+        end_time = time.monotonic() + 4 #4 second wait 
         while (time.monotonic() < end_time):
             if self.pressed == 'a':
                 self.current_state = "open-freeze"
@@ -58,6 +59,10 @@ class GarageDoor:
                 self.current_state = "close-freeze"
                 print("INTERRUPTED: Door is frozen")
                 return
+            elif self.pressed =='q':
+                self.presed = 'c'
+                self.done = True
+                break
                 
         self.current_state = "closed"
     
@@ -66,9 +71,9 @@ class GarageDoor:
 
     def run(self):
         self.listener.start()
-        print("The garage door is open! press any key to continue")
+        print("The garage door is open! press the 'A' button")
         state_changed = False
-        while True:
+        while not self.done:
             if (state_changed):
                 print("the state is: ", self.current_state)
                 state_changed = False
@@ -76,7 +81,8 @@ class GarageDoor:
                 self.pressed = 'c'
                 self.button_handler[self.current_state]()
                 state_changed = True
-            
+            elif self.pressed == 'q':
+                self.done = True
 
 if __name__=="__main__":
     door = GarageDoor()

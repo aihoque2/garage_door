@@ -42,7 +42,15 @@ to execute unit tests, please run
 
 
 ### to run
-inside the `python` directory, please run
+to execute the program, please type
 
-`python3 ./garage_door.py`
+`python3 ./src/garage_door.py`
 
+to run unittests, please type
+
+`python3 -m unittest discover`
+
+## Limitations and further work
+Due to time constraints, I was unable to get a proper unit test that simulates keyboard inputs for the garage door. 
+I would love to make a thorough unit test that types keyboard inputs on a separate thread. At least I am able to demonstrate
+my knowledge of creating unittests in CMake and Python.
