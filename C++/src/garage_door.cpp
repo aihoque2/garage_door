@@ -33,7 +33,10 @@ bool GarageDoor::close(){
   auto start = std::chrono::steady_clock::now();
   bool first_flag = true;
   while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)){
-    if (first_flag) {printw("Closing door... \n"); first_flag = false;}
+    if (first_flag) {
+      printw("Closing door... \n"); 
+      states.push_back("closing");
+      first_flag = false;}
     
     int ch = getch();
 
@@ -59,7 +62,11 @@ bool GarageDoor::open(){
   auto start = std::chrono::steady_clock::now();
   bool first_flag = true;
   while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)){
-    if (first_flag) {printw("Opening door... \n"); first_flag = false;}
+    if (first_flag) {
+      printw("Opening door... \n"); 
+      states.push_back("opening");
+      first_flag = false;
+      }
     int ch = getch();
     if (ch != ERR && ch == 'q') return false;
     else if (ch != ERR && ch == 'a'){
@@ -93,7 +100,8 @@ void GarageDoor::run(){
     bool first_flag = true;
     while (true && !done){
         if (first_flag){
-            printw(" Welcome to the garage door! your state is: %s\n", current_state.c_str());
+            // this if statement is in order to improve UI
+            printw("Welcome to the garage door! your state is: %s\n", current_state.c_str());
             first_flag = false;
         }
         if (state_changed){

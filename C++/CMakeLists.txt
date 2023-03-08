@@ -21,17 +21,17 @@ set(SOURCES
 )
 
 
-add_library(garage_door src/garage_door.cpp include/garage_door.h)
+add_library(garage_door SHARED src/garage_door.cpp include/garage_door.h)
 target_link_libraries(garage_door ${CURSES_LIBRARIES})
 
 # Add an executable with the above sources
-add_executable(main src/main.cpp src/garage_door.cpp include/garage_door.h)
-target_link_libraries(main ${CURSES_LIBRARIES})
+add_executable(main src/main.cpp )
+target_link_libraries(main garage_door)
 
 
 #test executables
-add_executable(test_run tests/test_run.cpp src/garage_door.cpp include/garage_door.h)
-target_link_libraries(test_run ${CURSES_LIBRARIES})
+add_executable(test_run tests/test_run.cpp)
+target_link_libraries(test_run garage_door)
 
 
 #add test
