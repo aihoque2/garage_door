@@ -12,6 +12,7 @@
 
 
 GarageDoor::GarageDoor(){
+    done = false;
     current_state = "open";
     states.push_back(current_state);
     fmap.emplace("open", &GarageDoor::close);
@@ -74,6 +75,10 @@ bool GarageDoor::open(){
 
 std::string GarageDoor::getState(){return current_state;}
 
+void GarageDoor::setDone(bool val){
+  done = val;
+}
+
 void GarageDoor::run(){
     // Initialize ncurses
     initscr();
@@ -86,7 +91,7 @@ void GarageDoor::run(){
 
     bool state_changed = false;
     bool first_flag = true;
-    while (true){
+    while (true && !done){
         if (first_flag){
             printw(" Welcome to the garage door! your state is: %s\n", current_state.c_str());
             first_flag = false;

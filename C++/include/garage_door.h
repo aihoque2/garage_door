@@ -18,7 +18,9 @@ class GarageDoor{
         bool open();
         void run(); // control loop of sim
         std::string getState();
+        void setDone(bool val);
     private:
+        bool done;
         std::vector<std::string> states;
         std::string current_state;
         typedef bool (GarageDoor::*MFP)(); //boolean function pointers

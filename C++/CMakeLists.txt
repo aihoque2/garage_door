@@ -30,21 +30,18 @@ target_link_libraries(main ${CURSES_LIBRARIES})
 
 
 #test executables
-add_executable(test_close tests/test_close.cpp src/garage_door.cpp include/garage_door.h)
-target_link_libraries(test_close ${CURSES_LIBRARIES})
-add_executable(test_open tests/test_open.cpp src/garage_door.cpp include/garage_door.h)
-target_link_libraries(test_open ${CURSES_LIBRARIES})
+add_executable(test_run tests/test_run.cpp src/garage_door.cpp include/garage_door.h)
+target_link_libraries(test_run ${CURSES_LIBRARIES})
+
 
 #add test
-add_test(NAME test_close
-        COMMAND test_close)
+add_test(NAME test_run
+        COMMAND test_run)
 
-add_test(NAME test_open
-        COMMAND test_open)
 
 #hide test executables
 set_target_properties(
-    test_open test_close
+    test_run
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY bin/tests
 )
