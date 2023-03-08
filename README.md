@@ -44,9 +44,5 @@ to execute unit tests, please run
 ### to run
 inside the `python` directory, please run
 
-`mkdir build && cd build && cmake .. && make`
-
-then to execute the program, please type
-
 `python3 ./garage_door.py`
 
